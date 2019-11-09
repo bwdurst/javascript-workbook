@@ -1,0 +1,12 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+#outputBox {
+  height: 50px;
+  width: 200px;
+  background: lightblue;
+  margin: 20px 0;
+}
