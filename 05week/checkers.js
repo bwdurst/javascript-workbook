@@ -11,9 +11,9 @@ const rl = readline.createInterface({
 class Checker {
   // Your code here
   constructor(color) {  
-    if (color = "white") {
+    if (color === "white") {
       this.symbol = '○';
-    } else if (color = "black") {
+    } else if (color === "black") {
       this.symbol = '●';
     }
   }
@@ -72,23 +72,49 @@ class Board {
     for (let i = 0; i <= 11; i++) {
       const row = whitePositions[i][0];
       const column = whitePositions[i][1];
-      this.grid[row][column] = new Checker('black');
+      this.grid[row][column] = new Checker('white');
+      this.checkers.push([whitePositions[i][0], whitePositions[i][1]]);
       const rowBlack = blackPositions[i][0];
-      const columnBlack = blackPositions[i][1];
-      this.grid[rowBlack][columnBlack] = new Checker('black');
-}
+      const colBlack = blackPositions[i][1];
+      this.grid[rowBlack][colBlack] = new Checker('black');
+      this.checkers.push([blackPositions[i][0], blackPositions[i][1]]);
+    }
+    console.log(this.checkers);
+  }
 
-  // selectChecker() {
-
-  // }
+  selectChecker(row, column) {
+    return this.grid[row][column];
+  }
   
-  // killChecker() {
+  killChecker(startPos, endPos) {
+    var middle = [];
+    if (startPos[1] > endPos[1] && startPos[0] > endPos[0]) {
+      middle = [startPos[0] -1, startPos[1] -1];
+      this.grid[middle[0]][middle[1]] = null;
+      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+    if (startPos[1] > endPos[1] && startPos[0] < endPos[0]) {
+      middle = [startPos[0] +1, startPos[1] -1];
+      this.grid[middle[0]][middle[1]] = null;
+      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+    if (startPos[1] < endPos[1] && startPos[0] > endPos[0]) {
+      middle = [startPos[0] -1, startPos[1] +1];
+      this.grid[middle[0]][middle[1]] = null;
+      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+    if (startPos[1] < endPos[1] && startPos[0] < endPos[0]) {
+      middle = [startPos[0] +1, startPos[1] +1];
+      this.grid[middle[0]][middle[1]] = null;
+      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+  }
 
-  // }
-
-  } 
-
-}
+} 
 
 class Game {
   constructor() {
@@ -99,7 +125,35 @@ class Game {
     this.board.createCheckers();
   }
 
-  // moveChecker(start, end);
+  moveChecker(start, end) {
+    var startCoords = start.split("").map(Number);
+    var endCoords = end.split("").map(Number);
+    var checker = this.board.selectChecker(startCoords[0], startCoords[1]);
+    var checkerIndex = this.board.checkers.findIndex(item => {
+      return item[0] === startCoords[0] && item[1] === startCoords[1];
+    });
+    console.log(checkerIndex);
+    // function checkerIndex(checkerCoords) {
+    //   if (checkerCoords === startCoords) {
+    //     return startCoords;
+    //   }
+    // }
+
+    this.board.grid[endCoords[0]][endCoords[1]] = checker;
+    this.board.grid[startCoords[0]][startCoords[1]] = null;
+    // console.log(checkerIndex(startCoords));
+    // console.log(startCoords);
+    // console.log(this.board.checkers);
+    console.log(this.board.checkers.findIndex(item => {
+      console.log(item, startCoords)
+      return item[0] === startCoords[0] && item[1] === startCoords[1];
+    }));
+    this.board.checkers.splice(checkerIndex, 1, [endCoords[0], endCoords[1]]);
+    console.log(this.board.checkers);
+    if (Math.abs(startCoords[0] - endCoords[0]) === 2) {
+      this.board.killChecker(startCoords, endCoords);
+    }
+  }
 }
 
 function getPrompt() {
