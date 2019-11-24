@@ -91,25 +91,29 @@ class Board {
     if (startPos[1] > endPos[1] && startPos[0] > endPos[0]) {
       middle = [startPos[0] -1, startPos[1] -1];
       this.grid[middle[0]][middle[1]] = null;
-      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
       this.checkers.splice(middleIndex, 1);
     }
     if (startPos[1] > endPos[1] && startPos[0] < endPos[0]) {
       middle = [startPos[0] +1, startPos[1] -1];
       this.grid[middle[0]][middle[1]] = null;
-      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
       this.checkers.splice(middleIndex, 1);
     }
     if (startPos[1] < endPos[1] && startPos[0] > endPos[0]) {
       middle = [startPos[0] -1, startPos[1] +1];
       this.grid[middle[0]][middle[1]] = null;
-      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
       this.checkers.splice(middleIndex, 1);
     }
     if (startPos[1] < endPos[1] && startPos[0] < endPos[0]) {
       middle = [startPos[0] +1, startPos[1] +1];
       this.grid[middle[0]][middle[1]] = null;
-      var middleIndex = this.checkers.findIndex(item => item[0] === middle[0] && item[1] === middle[1]);
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
       this.checkers.splice(middleIndex, 1);
     }
   }
