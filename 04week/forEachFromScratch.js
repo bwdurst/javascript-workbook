@@ -3,7 +3,7 @@ let arr = ['a', 'b', 'c']
   // your code here
   function forEachFromScratch (arr, fn) {
     for(let i = 0; i<arr.length; i++) {
-    fn(arr[i], i , arr);
+     fn(arr[i], i , arr);
     }
   }
   // use for loop to iterate over the array parameter

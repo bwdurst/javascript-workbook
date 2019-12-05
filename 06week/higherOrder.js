@@ -7,18 +7,41 @@ const assert = require('assert');
 // }
 
 function map(arr, callback) {
-  // Your code here
+  let newArr = [];
+  for(let i = 0; i < arr.length; i++) {
+    newArr.push(callback(arr[i]));
+  }
+  return newArr;
 }
+
+map([1, 2, 3], function(num) {
+  return num * num;
+});
+
 
 function filter(arr, callback) {
-  // Your code here
+  let newArr = [];
+  for(let i =0; i < arr.length; i++) {
+    if (callback(arr[i]) === true) {
+      newArr.push(arr[i]);
+    }
+  } return newArr;
 }
 
+filter([1, 2, 3], function(x) {
+  return x % 2 === 0;
+});
+
+
 function reduce(arr, callback) {
+  let count = 0;
   for( let i = 0; i < arr.length; i++) {
-    
+    count = callback(count, arr[i]);
   }
+  return count;
 }
+
+reduce( [1, 2, 3], (accumulator, currentValue) => accumulator + currentValue);
 
 // function some(arr, callback) {
 //   // Your code here
