@@ -63,7 +63,7 @@ const redTeam = []
 
 //constructor class for adding people to players
 class Player {
-  constructor(id, name, age, skillSet, placeBorn, canThrowBall, 
+  constructor(id, name, age, skillSet, placeBorn, canThrowBall,
     canDodgeBall, hasPaid, ishHealthy, yearsExperience) {
     this.id = id;
     this.name = name;
@@ -81,18 +81,18 @@ class Player {
 }
 
 const newPlayerKeys = [
-  {id: 'PlayerID:'},
-  {name: 'Player Name:'},
-  {age: 'Player Age:'},
-  {skill: 'Skillset:'},
-  {born: 'Born in:'},
-  {throw: 'Can they throw the ball?'},
-  {dodge: 'Can they dodge the ball?'},
-  {paid: 'Have they paid?'},
-  {healthy: 'Are they healthy?'},
-  {exp: 'Years of experience?'},
-  {mascot: 'Mascot?'},
-  {color: 'Team Color?'}];
+  { id: 'PlayerID:' },
+  { name: 'Player Name:' },
+  { age: 'Player Age:' },
+  { skill: 'Skillset:' },
+  { born: 'Born in:' },
+  { throw: 'Can they throw the ball?' },
+  { dodge: 'Can they dodge the ball?' },
+  { paid: 'Have they paid?' },
+  { healthy: 'Are they healthy?' },
+  { exp: 'Years of experience?' },
+  { mascot: 'Mascot?' },
+  { color: 'Team Color?' }];
 
 
 function addToBlueTeam(player, playerId) {
@@ -158,7 +158,7 @@ const listPeopleChoices = () => {
     // adds Make Player text to button
     button.innerHTML = "Make Player"
     // creates an event listener to run the makePlayer function when the button is pressed
-    button.addEventListener('click', function() {makePlayer(person.id)} )
+    button.addEventListener('click', function () { makePlayer(person.id) })
     // calls li variable and adds a new HTML element
     li.appendChild(button)
     // adds the text describing the player
@@ -211,12 +211,12 @@ function makePlayer(id) {
   const blueButton = document.createElement("button")
   blueButton.setAttribute('id', 'blueButton')
   blueButton.innerHTML = "Add to Blue Team"
-  blueButton.addEventListener('click', function() {addToBlueTeam(player, playerId)} )
+  blueButton.addEventListener('click', function () { addToBlueTeam(player, playerId) })
 
   const redButton = document.createElement("button")
   redButton.setAttribute('id', 'redButton')
   redButton.innerHTML = "Add to Red Team"
-  redButton.addEventListener('click', function() {addToRedTeam(player, playerId)} )
+  redButton.addEventListener('click', function () { addToRedTeam(player, playerId) })
 
   playerDiv.setAttribute('id', playerId)
   playerDiv.setAttribute('class', 'person')
@@ -246,11 +246,8 @@ function createTraitList(target, player) {
 //   listKeys(newPlayerKeys, playerID);
 // }
 
-
-
 function listKeys(arr, loc) {
-  const personId = loc.length-1;
-  for( let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     var p = document.createElement('input');
     p.setAttribute('id', Object.keys(arr[i]));
     p.setAttribute('placeholder', Object.values(arr[i]));
