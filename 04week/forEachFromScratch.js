@@ -2,7 +2,10 @@ let arr = ['a', 'b', 'c']
 
   // your code here
   function forEachFromScratch (arr, fn) {
-    for(let i = 0; i<arr.length; i++) {
+
+    for(let i = 0; i < arr.length; i++) {
+
+
     fn(arr[i], i , arr);
     }
   }
@@ -11,7 +14,10 @@ let arr = ['a', 'b', 'c']
   // the current index in the array, and the current array
   
   // syntax on how we will call our custom function
-  forEachFromScratch(arr, function (element, i, arr) {
+
+  forEachFromScratch(arr, function(element, i, arr) {
+
+
     console.log(element, i);
     console.log(arr);
   });
