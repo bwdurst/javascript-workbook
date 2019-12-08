@@ -1,3 +1,12 @@
+'use strict';
+
+const assert = require('assert');
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 // array of available people that can be added as players
 const arrOfPeople = [
   {
@@ -62,7 +71,8 @@ const redTeam = []
 
 //constructor class for adding people to players
 class Player {
-  constructor(id, name, age, skillSet, placeBorn, canThrowBall, canDodgeBall, hasPaid, ishHealthy, yearsExperience) {
+  constructor(id, name, age, skillSet, placeBorn, canThrowBall, 
+    canDodgeBall, hasPaid, ishHealthy, yearsExperience) {
     this.id = id;
     this.name = name;
     this.age = age;
@@ -73,25 +83,34 @@ class Player {
     this.hasPaid = hasPaid;
     this.ishHealthy = ishHealthy;
     this.yearsExperience = yearsExperience;
+    this.mascot = "";
+    this.teamColor = "";
   }
 }
 
-//class constructor for adding players to the blue team
-// class BlueTeammate extends Player {
-//   constructor(name) {
-//     super(name);
-//     this.mascot = 'Ardvark'
-//     this.color = 'blue'
-//   }
-// }
+const newPlayerKeys = [
+  {id: 'PlayerID:'},
+  {name: 'Player Name:'},
+  {age: 'Player Age:'},
+  {skill: 'Skillset:'},
+  {born: 'Born in:'},
+  {throw: 'Can they throw the ball?'},
+  {dodge: 'Can they dodge the ball?'},
+  {paid: 'Have they paid?'},
+  {healthy: 'Are they healthy?'},
+  {exp: 'Years of experience?'},
+  {mascot: 'Mascot?'},
+  {color: 'Team Color?'}];
+
 
 function addToBlueTeam(player, playerId) {
   player.mascot = 'Ardvark';
   player.color = 'Blue';
 
-
-  var toMove = document.getElementById(playerId);
-  var target = document.getElementById('blue');
+  const toMove = document.getElementById(playerId);
+  const target = document.getElementById('blue');
+  const mascot = document.getElementById('mascot')
+  const color = document.getElementById('color')
 
   console.log(toMove);
   console.log(target);
@@ -100,21 +119,40 @@ function addToBlueTeam(player, playerId) {
     return obj.id === player.id;
   })
 
-  // var element = document.getElementById(playerId);
-  // element.parentNode.removeChild(element);
-  toMove.appendChild(target)
+  mascot.innerHTML = 'Mascot? Ardvark'
+  color.innerHTML = 'Team color? Blue'
+  target.appendChild(toMove)
   blueTeam.push(player);
+  redTeam.splice(personIndex, 1);
   listOfPlayers.splice(personIndex, 1);
 }
 
 //class constructor for adding players to the red team
-class RedTeammate {
-  constructor(){}
+function addToRedTeam(player, playerId) {
+  player.mascot = 'Platypus';
+  player.color = 'Red';
+
+  const toMove = document.getElementById(playerId);
+  const target = document.getElementById('red');
+  const mascot = document.getElementById('mascot')
+  const color = document.getElementById('color')
+
+  var personIndex = listOfPlayers.findIndex(obj => {
+    return obj.id === player.id;
+  })
+
+  mascot.innerHTML = 'Mascot? Platypus'
+  color.innerHTML = 'Team color? Red'
+  target.appendChild(toMove)
+  redTeam.push(player);
+  blueTeam.splice(personIndex, 1);
+  listOfPlayers.splice(personIndex, 1);
 }
 
 // when List People button is clicked, this function is called and will display all of the 
 // people available to add as players
 const listPeopleChoices = () => {
+  document.getElementById('listPeopleButton').style.visibility = 'hidden';
   // initializes the element that will 
   const listElement = document.getElementById('people')
   // for each person in the arrOfPeople array, add a list item, identifying text
@@ -148,6 +186,7 @@ function makePlayer(id) {
   var personIndex = arrOfPeople.findIndex(obj => {
     return obj.id === id;
   })
+
   var person = person[0];
 
   var playerId = 'Player' + person.id;
@@ -157,7 +196,12 @@ function makePlayer(id) {
     person.name,
     person.age,
     person.skillSet,
-    person.placeBorn
+    person.placeBorn,
+    'Yes',
+    'Yes',
+    'Yes',
+    'Yes',
+    5
   )
 
   var element = document.getElementById(playerId);
@@ -169,7 +213,8 @@ function makePlayer(id) {
 
   var playerId = 'Player' + person.id;
 
-  const li = document.createElement("li")
+  const playerDiv = document.createElement("ul")
+  const p = document.createElement("p");
 
   const blueButton = document.createElement("button")
   blueButton.setAttribute('id', 'blueButton')
@@ -179,60 +224,41 @@ function makePlayer(id) {
   const redButton = document.createElement("button")
   redButton.setAttribute('id', 'redButton')
   redButton.innerHTML = "Add to Red Team"
-  redButton.addEventListener('click', function() {new RedTeammate(id)} )
+  redButton.addEventListener('click', function() {addToRedTeam(player, playerId)} )
 
-
-  li.appendChild(document.createTextNode(person.name + " - " + person.skillSet))
-  li.setAttribute('id', playerId)
-  li.setAttribute('class', 'person')
-  li.appendChild(blueButton)
-  li.appendChild(redButton)
-  listElement.append(li)
+  playerDiv.setAttribute('id', playerId)
+  playerDiv.setAttribute('class', 'person')
+  playerDiv.appendChild(blueButton)
+  playerDiv.appendChild(redButton)
+  listElement.append(playerDiv)
+  createTraitList(playerDiv, player);
 }
 
-  // const blueButton = document.createElement("button")
-  // blueButton.setAttribute('id', 'blueButton')
-  // blueButton.innerHTML = "Add to Blue Team"
-  // blueButton.addEventListener('click', function() {new BlueTeammate(playerID)} )
+function createTraitList(target, player) {
+  const playerKeys = Object.keys(player);
+  const playerTraits = Object.values(player);
+  for (i = 0; i <= 11; i++) {
+    let p = document.createElement('p')
+    p.setAttribute('id', playerKeys[i]);
+    p.setAttribute('class', 'trait');
+    p.innerHTML = `${Object.values(newPlayerKeys[i])} ${playerTraits[i]}`
+    target.appendChild(p);
+  }
+}
 
-  // const redButton = document.createElement("button")
-  // redButton.setAttribute('id', 'redButton')
-  // redButton.innerHTML = "Add to Red Team"
-  // redButton.addEventListener('click', function() {new RedTeammate(playerID)} )
-
-  // playerID.appendChild(blueButton)
-  // playerID.appendChild(redButton)
-// }
-
-//the function that creates a player and adds them to a team
+// the function that creates a player and adds them to a team
 // const getTraits = (playerId, id) => {
 //   const arrPlayer = id-1;
 //   const playerID = document.getElementById(playerId);
 //   listKeys(newPlayerKeys, playerID);
 // }
 
-// const newPlayerKeys = [
-//   {throw: 'Can they throw the ball?'},
-//   {dodge: 'Can they dodge the ball?'},
-//   {paid: 'Have they paid?'},
-//   {healthy: 'Are they healthy?'},
-//   {exp: 'Years of experience?'}];
-
-
-// function listKeys(arr, loc) {
-//   const personId = loc.length-1;
-//   console.log(loc);
-//   for( let i = 0; i < arr.length; i++) {
-//     var p = document.createElement('input');
-//     p.setAttribute('id', Object.keys(arr[i]));
-//     p.setAttribute('placeholder', Object.values(arr[i]));
-//     loc.appendChild(p);
-//   }
-  
-//   const addPlayerButton = document.createElement('button')
-//   addPlayerButton.addEventListener('click', function() {makePlayer(personId)} )
-//   addPlayerButton.innerHTML = 'Add To Players'
-//   loc.appendChild(addPlayerButton)
-// }
-
-
+function listKeys(arr, loc) {
+  const personId = loc.length-1;
+  for( let i = 0; i < arr.length; i++) {
+    var p = document.createElement('input');
+    p.setAttribute('id', Object.keys(arr[i]));
+    p.setAttribute('placeholder', Object.values(arr[i]));
+    loc.appendChild(p);
+  }
+}
