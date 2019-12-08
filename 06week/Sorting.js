@@ -10,28 +10,28 @@ console.log(stringsToNumbs(strNums));
 // With the same numbers, find the sum of the even values
 const sumEvens = numbers => {
   let array = numbers.map(Number);
-  var count = 0;
+  var sum = 0;
   for(let i = 0; i < array.length; i++) {
     if (array[i] % 2 === 0) {
-      count = count + array[i];
+      sum += array[i];
     }
-  } return count;
+  } return sum;
 };
 
 console.log(sumEvens(strNums));
 
-// Find the index of the first value when added to it's index = 512 (#ATX!!)
+// Find the index of the first value when added to its index = 512 (#ATX!!)
 const atx = numbers => {
   let atxIdx = 0;
   let nums = numbers.map(Number);
-  for(let i = 0; i < nums.length; i++) {
-    if (nums[i] + i === 512) {
+  for(let i = 500; i <= 512; i++) {
+    if (nums[i] > 0 && nums[i] + i == 512) {
       atxIdx = i;
     }
-  } console.log(`index: ${atxIdx}, value: ${nums[atxIdx]}`);
+  }  return `index: ${atxIdx}, value: ${nums[atxIdx]}`;
 }
 
-atx(strNums);
+console.log(atx(strNums));
 
 const weather = [
   { id: 5743823523151872,
@@ -100,20 +100,22 @@ const weather = [
   },
 ];
 
-//using a higher order function, create an array of the unique 'weather_state_name' values of the weather array. Your function should return the following array ['Light Cloud', 'Heavy Cloud', 'Showers']
+//using a higher order function, create an array of the unique 'weather_state_name' values of the weather array. 
+//Your function should return the following array ['Light Cloud', 'Heavy Cloud', 'Showers']
 
-const weatherStates = obj => {
-  let weatherState = [];
-  for( let i = 0; i < obj.length; i++) {
-    if (weatherState.includes(obj[i].weather_state_name) === false) {
-    weatherState.push(obj[i].weather_state_name)
-    }
+function weatherStates(arr, fn) {
+  var weatherState = [];
+  for( let i = 0; i < arr.length; i++) {
+    weatherState.push((fn(arr, i)));
   }
-  return weatherState;
+  return [... new Set(weatherState)];
 }
 
+function checkWeather(arr, i) {
+  return arr[i].weather_state_name;
+}
 
-console.log(weatherStates(weather));
+console.log(weatherStates(weather, checkWeather));
 
 //find the id of the object in weather that has a min_temp of 15.915
 
