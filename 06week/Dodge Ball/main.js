@@ -1,13 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
 // array of available people that can be added as players
+
 const arrOfPeople = [
   {
     id: 1,
@@ -84,7 +76,7 @@ class Player {
     this.ishHealthy = ishHealthy;
     this.yearsExperience = yearsExperience;
     this.mascot = "";
-    this.teamColor = "";
+    this.color = "";
   }
 }
 
@@ -109,8 +101,8 @@ function addToBlueTeam(player, playerId) {
 
   const toMove = document.getElementById(playerId);
   const target = document.getElementById('blue');
-  const mascot = document.getElementById('mascot')
-  const color = document.getElementById('color')
+  const mascot = document.getElementById('mascot' + player.id)
+  const color = document.getElementById('color' + player.id)
 
   console.log(toMove);
   console.log(target);
@@ -134,8 +126,8 @@ function addToRedTeam(player, playerId) {
 
   const toMove = document.getElementById(playerId);
   const target = document.getElementById('red');
-  const mascot = document.getElementById('mascot')
-  const color = document.getElementById('color')
+  const mascot = document.getElementById('mascot' + player.id)
+  const color = document.getElementById('color' + player.id)
 
   var personIndex = listOfPlayers.findIndex(obj => {
     return obj.id === player.id;
@@ -237,9 +229,10 @@ function makePlayer(id) {
 function createTraitList(target, player) {
   const playerKeys = Object.keys(player);
   const playerTraits = Object.values(player);
+  console.log(playerTraits);
   for (i = 0; i <= 11; i++) {
     let p = document.createElement('p')
-    p.setAttribute('id', playerKeys[i]);
+    p.setAttribute('id', `${playerKeys[i]}${playerTraits[0]}`);
     p.setAttribute('class', 'trait');
     p.innerHTML = `${Object.values(newPlayerKeys[i])} ${playerTraits[i]}`
     target.appendChild(p);
@@ -252,6 +245,8 @@ function createTraitList(target, player) {
 //   const playerID = document.getElementById(playerId);
 //   listKeys(newPlayerKeys, playerID);
 // }
+
+
 
 function listKeys(arr, loc) {
   const personId = loc.length-1;
