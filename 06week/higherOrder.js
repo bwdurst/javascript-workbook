@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 
+// map function
 function map(arr, callback) {
   let newArr = [];
   for(let i = 0; i < arr.length; i++) {
@@ -14,7 +15,7 @@ map([1, 2, 3], function(num) {
   return num * num;
 });
 
-
+// filter function
 function filter(arr, callback) {
   let newArr = [];
   for(let i =0; i < arr.length; i++) {
@@ -28,7 +29,7 @@ filter([1, 2, 3], function(x) {
   return x % 2 === 0;
 });
 
-
+//reduce function
 function reduce(arr, callback) {
   let count = 0;
   for( let i = 0; i < arr.length; i++) {
