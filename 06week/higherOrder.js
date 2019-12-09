@@ -5,40 +5,40 @@ const assert = require('assert');
 // map function
 function map(arr, callback) {
   let newArr = [];
-  for(let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     newArr.push(callback(arr[i]));
   }
   return newArr;
 }
 
-map([1, 2, 3], function(num) {
+map([1, 2, 3], function (num) {
   return num * num;
 });
 
 // filter function
 function filter(arr, callback) {
   let newArr = [];
-  for(let i =0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (callback(arr[i]) === true) {
       newArr.push(arr[i]);
     }
   } return newArr;
 }
 
-filter([1, 2, 3], function(x) {
+filter([1, 2, 3], function (x) {
   return x % 2 === 0;
 });
 
 //reduce function
 function reduce(arr, callback) {
   let count = 0;
-  for( let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     count = callback(count, arr[i]);
   }
   return count;
 }
 
-reduce( [1, 2, 3], (accumulator, currentValue) => accumulator + currentValue);
+reduce([1, 2, 3], (accumulator, currentValue) => accumulator + currentValue);
 
 if (typeof describe === 'function') {
 
