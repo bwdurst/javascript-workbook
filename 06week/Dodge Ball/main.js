@@ -63,8 +63,7 @@ const redTeam = []
 
 //constructor class for adding people to players
 class Player {
-  constructor(id, name, age, skillSet, placeBorn, canThrowBall,
-    canDodgeBall, hasPaid, ishHealthy, yearsExperience) {
+  constructor(id, name, age, skillSet, placeBorn, canThrowBall, canDodgeBall, hasPaid, ishHealthy, yearsExperience) {
     this.id = id;
     this.name = name;
     this.age = age;
@@ -75,8 +74,24 @@ class Player {
     this.hasPaid = hasPaid;
     this.ishHealthy = ishHealthy;
     this.yearsExperience = yearsExperience;
-    this.mascot = "";
-    this.color = "";
+  }
+}
+
+class Teammate extends Player {
+  constructor(player, color) {
+    super(player)
+      this.id = player.id;
+      this.name = player.name;
+      this.age = player.age;
+      this.skillSet = player.skillSet;
+      this.placeBorn = player.placeBorn;
+      this.canThrowBall = player.canThrowBall;
+      this.canDodgeBall = player.canDodgeBall;
+      this.hasPaid = player.hasPaid;
+      this.ishHealthy = player.ishHealthy;
+      this.yearsExperience = player.yearsExperience;
+      this.mascot = color === 'blue' ? 'Ardvark' : 'Platypus';
+      this.color = color;
   }
 }
 
@@ -95,56 +110,37 @@ const newPlayerKeys = [
   { color: 'Team Color?' }];
 
 
-function addToBlueTeam(player, playerId) {
-  player.mascot = 'Ardvark';
-  player.color = 'Blue';
-
-  const toMove = document.getElementById(playerId);
-  const target = document.getElementById('blue');
-  const mascot = document.getElementById('mascot' + player.id)
-  const color = document.getElementById('color' + player.id)
-
-  console.log(toMove);
-  console.log(target);
-
+function addToTeam(player, playerId, color) {
   var personIndex = listOfPlayers.findIndex(obj => {
     return obj.id === player.id;
   })
 
-  mascot.innerHTML = 'Mascot? Ardvark'
-  color.innerHTML = 'Team color? Blue'
-  target.appendChild(toMove)
-  blueTeam.push(player);
-  redTeam.splice(personIndex, 1);
-  listOfPlayers.splice(personIndex, 1);
-}
-
-//class constructor for adding players to the red team
-function addToRedTeam(player, playerId) {
-  player.mascot = 'Platypus';
-  player.color = 'Red';
+  let teammate = new Teammate(player, color);
 
   const toMove = document.getElementById(playerId);
-  const target = document.getElementById('red');
-  const mascot = document.getElementById('mascot' + player.id)
-  const color = document.getElementById('color' + player.id)
+  const target = document.getElementById(color == 'blue' ? 'blue' : 'red');
+  const mascot = document.createElement('p');
+  const teamColor = document.createElement('p');
 
-  var personIndex = listOfPlayers.findIndex(obj => {
-    return obj.id === player.id;
-  })
+  toMove.removeChild(document.getElementById('blueButton'));
+  toMove.removeChild(document.getElementById('redButton'));
+  mascot.innerHTML = color == 'blue' ? 'Mascot? Ardvark' : 'Mascot: Platypus';
+  toMove.appendChild(mascot);
+  teamColor.innerHTML = color == 'blue' ? 'Team color? Blue' : 'Team color? Red';
 
-  mascot.innerHTML = 'Mascot? Platypus'
-  color.innerHTML = 'Team color? Red'
-  target.appendChild(toMove)
-  redTeam.push(player);
-  blueTeam.splice(personIndex, 1);
+  toMove.appendChild(teamColor);
+  target.appendChild(toMove);
+  blueTeam.push(teammate);
   listOfPlayers.splice(personIndex, 1);
+  toMove.removeChild(document.getElementById('blueButton'));
+  toMove.removeChild(document.getElementById('redButton'));
+  // (document.getElementById('blueButton').style.display = 'none');
+  // (document.getElementById('redButton').style.display = 'none');
 }
 
 // when List People button is clicked, this function is called and will display all of the 
 // people available to add as players
 const listPeopleChoices = () => {
-  document.getElementById('listPeopleButton').style.visibility = 'hidden';
   // initializes the element that will 
   const listElement = document.getElementById('people')
   // for each person in the arrOfPeople array, add a list item, identifying text
@@ -168,6 +164,7 @@ const listPeopleChoices = () => {
     li.setAttribute('class', 'person')
     listElement.append(li)
   })
+  document.getElementById('listPeopleButton').style.display = 'none';
 }
 
 function makePlayer(id) {
@@ -211,12 +208,12 @@ function makePlayer(id) {
   const blueButton = document.createElement("button")
   blueButton.setAttribute('id', 'blueButton')
   blueButton.innerHTML = "Add to Blue Team"
-  blueButton.addEventListener('click', function () { addToBlueTeam(player, playerId) })
+  blueButton.addEventListener('click', function () { addToTeam(player, playerId, 'blue') })
 
   const redButton = document.createElement("button")
   redButton.setAttribute('id', 'redButton')
   redButton.innerHTML = "Add to Red Team"
-  redButton.addEventListener('click', function () { addToRedTeam(player, playerId) })
+  redButton.addEventListener('click', function () { addToTeam(player, playerId, 'red') })
 
   playerDiv.setAttribute('id', playerId)
   playerDiv.setAttribute('class', 'person')
@@ -230,7 +227,7 @@ function createTraitList(target, player) {
   const playerKeys = Object.keys(player);
   const playerTraits = Object.values(player);
   console.log(playerTraits);
-  for (i = 0; i <= 11; i++) {
+  for (i = 0; i <= 9; i++) {
     let p = document.createElement('p')
     p.setAttribute('id', `${playerKeys[i]}${playerTraits[0]}`);
     p.setAttribute('class', 'trait');
@@ -238,13 +235,6 @@ function createTraitList(target, player) {
     target.appendChild(p);
   }
 }
-
-// the function that creates a player and adds them to a team
-// const getTraits = (playerId, id) => {
-//   const arrPlayer = id-1;
-//   const playerID = document.getElementById(playerId);
-//   listKeys(newPlayerKeys, playerID);
-// }
 
 function listKeys(arr, loc) {
   for (let i = 0; i < arr.length; i++) {
@@ -254,3 +244,10 @@ function listKeys(arr, loc) {
     loc.appendChild(p);
   }
 }
+
+// the function that creates a player and adds them to a team
+// const getTraits = (playerId, id) => {
+//   const arrPlayer = id-1;
+//   const playerID = document.getElementById(playerId);
+//   listKeys(newPlayerKeys, playerID);
+// }
