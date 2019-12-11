@@ -1,5 +1,9 @@
-// array of available people that can be added as players
+'use strict';
 
+const assert = require('assert');
+
+
+// array of available people that can be added as players
 const arrOfPeople = [
   {
     id: 1,
@@ -132,8 +136,8 @@ function addToTeam(player, playerId, color) {
   target.appendChild(toMove);
   blueTeam.push(teammate);
   listOfPlayers.splice(personIndex, 1);
-  toMove.removeChild(document.getElementById('blueButton'));
-  toMove.removeChild(document.getElementById('redButton'));
+  // toMove.removeChild(document.getElementById('blueButton'));
+  // toMove.removeChild(document.getElementById('redButton'));
   // (document.getElementById('blueButton').style.display = 'none');
   // (document.getElementById('redButton').style.display = 'none');
 }
@@ -226,8 +230,7 @@ function makePlayer(id) {
 function createTraitList(target, player) {
   const playerKeys = Object.keys(player);
   const playerTraits = Object.values(player);
-  console.log(playerTraits);
-  for (i = 0; i <= 9; i++) {
+  for (let i = 0; i <= 9; i++) {
     let p = document.createElement('p')
     p.setAttribute('id', `${playerKeys[i]}${playerTraits[0]}`);
     p.setAttribute('class', 'trait');
@@ -251,3 +254,24 @@ function listKeys(arr, loc) {
 //   const playerID = document.getElementById(playerId);
 //   listKeys(newPlayerKeys, playerID);
 // }
+
+if (typeof describe === 'function') {
+
+  describe('addToTeam()', () => {
+    it('should move a player to a team', () => {
+      const blueGuy = new Player(1);
+      assert.equal(blueGuy.id, 1);
+    });
+    it('should remove the player from the listOfPeopleArray', () => {
+      const blueGuy = new Player(1);
+      assert.equal(listOfPeople)
+    });
+  });
+
+  describe('makePlayer()', () => {
+    it('should create an object in players array', () => {
+      const newPlayer = new makePlayer(1);
+      assert.equal(listOfPlayers[0], true);
+    });
+  });
+}
