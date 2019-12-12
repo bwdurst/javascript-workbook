@@ -1,6 +1,5 @@
-'use strict';
+// 'use strict';
 
-const assert = require('assert');
 
 
 // array of available people that can be added as players
@@ -121,6 +120,9 @@ function addToTeam(player, playerId, color) {
 
   let teammate = new Teammate(player, color);
 
+  color === 'blue' ? blueTeam.push(teammate) : redTeam.push(teammate)
+  listOfPlayers.splice(personIndex, 1);
+
   const toMove = document.getElementById(playerId);
   const target = document.getElementById(color == 'blue' ? 'blue' : 'red');
   const mascot = document.createElement('p');
@@ -134,12 +136,6 @@ function addToTeam(player, playerId, color) {
 
   toMove.appendChild(teamColor);
   target.appendChild(toMove);
-  blueTeam.push(teammate);
-  listOfPlayers.splice(personIndex, 1);
-  // toMove.removeChild(document.getElementById('blueButton'));
-  // toMove.removeChild(document.getElementById('redButton'));
-  // (document.getElementById('blueButton').style.display = 'none');
-  // (document.getElementById('redButton').style.display = 'none');
 }
 
 // when List People button is clicked, this function is called and will display all of the 
@@ -197,17 +193,17 @@ function makePlayer(id) {
     5
   )
 
-  var element = document.getElementById(playerId);
-  element.parentNode.removeChild(element);
   listOfPlayers.push(player);
   arrOfPeople.splice(personIndex, 1);
+
+  var element = document.getElementById(playerId);
+  element.parentNode.removeChild(element);
 
   const listElement = document.getElementById('players')
 
   var playerId = 'Player' + person.id;
 
   const playerDiv = document.createElement("ul")
-  const p = document.createElement("p");
 
   const blueButton = document.createElement("button")
   blueButton.setAttribute('id', 'blueButton')
@@ -239,16 +235,19 @@ function createTraitList(target, player) {
   }
 }
 
-function listKeys(arr, loc) {
-  for (let i = 0; i < arr.length; i++) {
-    var p = document.createElement('input');
-    p.setAttribute('id', Object.keys(arr[i]));
-    p.setAttribute('placeholder', Object.values(arr[i]));
-    loc.appendChild(p);
-  }
-}
+// function listKeys(arr, loc) {
+//   for (let i = 0; i < arr.length; i++) {
+//     var p = document.createElement('input');
+//     p.setAttribute('id', Object.keys(arr[i]));
+//     p.setAttribute('placeholder', Object.values(arr[i]));
+//     loc.appendChild(p);
+//   }
+// }
 
-// the function that creates a player and adds them to a team
+
+const assert = require('assert');
+
+//// the function that creates a player and adds them to a team
 // const getTraits = (playerId, id) => {
 //   const arrPlayer = id-1;
 //   const playerID = document.getElementById(playerId);
@@ -258,20 +257,23 @@ function listKeys(arr, loc) {
 if (typeof describe === 'function') {
 
   describe('addToTeam()', () => {
-    it('should move a player to a team', () => {
-      const blueGuy = new Player(1);
-      assert.equal(blueGuy.id, 1);
+    it('should create a teammate and set mascot', () => {
+      const blueGal = new Player(1);
+      const blueGuy = new Teammate(blueGal, 'blue');
+      assert.equal(blueGuy.mascot, 'Ardvark');
     });
-    it('should remove the player from the listOfPeopleArray', () => {
-      const blueGuy = new Player(1);
-      assert.equal(listOfPeople)
+
+    it('should assign correct team color', () => {
+      const redGal = new Player(1);
+      const redGuy = new Teammate(redGal,'red');
+      assert.equal(redGuy.color, 'red')
     });
   });
 
   describe('makePlayer()', () => {
-    it('should create an object in players array', () => {
-      const newPlayer = new makePlayer(1);
-      assert.equal(listOfPlayers[0], true);
+    it('should create a player', () => {
+      const newGuy = new Player(1)
+      assert.equal(newGuy.id, 1);
     });
   });
 }
