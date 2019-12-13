@@ -271,9 +271,9 @@ if (typeof describe === 'function') {
   });
 
   describe('makePlayer()', () => {
-    it('should create a player', () => {
-      const newGuy = new Player(1)
-      assert.equal(newGuy.id, 1);
+    it('should create a player and extend player traits to the object', () => {
+      const newGuy = new Player(1, 'Jackson', 91, 'making sushi', 'Rome, Italy', 'Yes', 'Yes', 'Yes', 'Yes', 100)
+      assert.equal(newGuy.canThrowBall, 'Yes');
     });
   });
 }

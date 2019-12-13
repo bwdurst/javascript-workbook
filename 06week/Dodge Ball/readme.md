@@ -1,5 +1,5 @@
 1) Move people to the player section
-  a) Grab person details from the arrOfPeople array and pass them into the player class.
+  a) Grab person details from the arrOfPeople array and pass them into the player class
   b) player class should add required properties
   c) Move the object from the people array to the player array
   d) Create/move an element and display it in the dodge ball players section
@@ -11,6 +11,6 @@
   c) new properties should be displayed in DOM
 
 3) Create 3 tests
-  a) Test that the player object is created in the Players array when the Make Player button is         clicked
-  b) Check that the player object is moved to the correct team (blue) when the button is clicked
-  c) Check that the correct properties are added when a player is made
+  a) Test that a player is created and properties of a player are added
+  b) Test that the teammate class extends required properties of a blue player
+  c) Test that the teammate class extends required properties of a red player
