@@ -261,7 +261,7 @@ const assert = require('assert');
 
 if (typeof describe === 'function') {
 
-  // tests that traits of a blue player are entended to a player object
+  // tests that traits of a blue player are extended to a player object
   describe('addToTeam()', () => {
     it('should create a teammate and set mascot', () => {
       const blueGal = new Player(1);
@@ -269,7 +269,7 @@ if (typeof describe === 'function') {
       assert.equal(blueGuy.mascot, 'Ardvark');
     });
 
-    // tests that traits of a blue player are entended to a player object
+    // tests that traits of a blue player are extended to a player object
     it('should assign correct team color', () => {
       const redGal = new Player(1);
       const redGuy = new Teammate(redGal, 'red');
