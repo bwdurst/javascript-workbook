@@ -8,14 +8,25 @@ const rl = readline.createInterface({
 });
 
 
-function Checker() {
-  // Your code here
+class Checker {
+  // Constructor for the checkers to be placed on the board.
+  constructor(color) {  
+    //If the passed in color is white, create a white checker, else create black
+    if (color === "white") {
+      this.symbol = '○';
+    } else if (color === "black") {
+      this.symbol = '●';
+    }
+  }
 }
+
 
 class Board {
   constructor() {
     this.grid = []
+    this.checkers = [];
   }
+  
   // method that creates an 8x8 array, filled with null values
   createGrid() {
     // loop to create the 8 rows
@@ -53,7 +64,87 @@ class Board {
   }
 
   // Your code here
-}
+  createCheckers() {
+    // starting positions for white and black checkers
+    var whitePositions = [[0, 1], [0, 3], [0, 5], [0, 7],
+                         [1, 0], [1, 2], [1, 4], [1, 6],
+                         [2, 1], [2, 3], [2, 5], [2, 7]];
+    var blackPositions = [[5, 0], [5, 2], [5, 4], [5, 6],
+                         [6, 1], [6, 3], [6, 5], [6, 7],
+                         [7, 0], [7, 2], [7, 4], [7, 6]];
+    for (let i = 0; i <= 11; i++) {
+      //row and column variables created from white starting positions array
+      const row = whitePositions[i][0];
+      const column = whitePositions[i][1];
+      // create white checkers from whitePositions array
+      this.grid[row][column] = new Checker('white');
+      this.checkers.push([whitePositions[i][0], whitePositions[i][1]]);
+      // row and column variables created from black starting positions array
+      const rowBlack = blackPositions[i][0];
+      const colBlack = blackPositions[i][1];
+      // create black checkers from blackPositions array
+      this.grid[rowBlack][colBlack] = new Checker('black');
+      this.checkers.push([blackPositions[i][0], blackPositions[i][1]]);
+    }
+  }
+  // helper function created to find the checker at a given location.
+  selectChecker(row, column) {
+    // returns found value (black or white character)
+    return this.grid[row][column];
+  }
+
+  // function that removes a "killed" checker if it is jumped over
+  killChecker(startPos, endPos) {
+    // empty variable created for the mid point between the starting and ending positions
+    var middle = [];
+
+    // if the starting row and colunm are greater than the end row and column
+    if (startPos[1] > endPos[1] && startPos[0] > endPos[0]) {
+      // then middle variable equals the row and column -1
+      middle = [startPos[0] -1, startPos[1] -1];
+      // set the middle position to null
+      this.grid[middle[0]][middle[1]] = null;
+      // find and remove the checker in the checker array
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+
+    // checks for the 2nd of 4 possible jumps
+    if (startPos[1] > endPos[1] && startPos[0] < endPos[0]) {
+      middle = [startPos[0] +1, startPos[1] -1];
+      // set the middle position to null
+      this.grid[middle[0]][middle[1]] = null;
+      // find and remove the checker in the checker array
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+
+    // checks for the 3rd of 4 possible jumps
+    if (startPos[1] < endPos[1] && startPos[0] > endPos[0]) {
+      middle = [startPos[0] -1, startPos[1] +1];
+      // set the middle position to null
+      this.grid[middle[0]][middle[1]] = null;
+      // find and remove the checker in the checker array
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+
+    // checks for the 4th of 4 possible jumps
+    if (startPos[1] < endPos[1] && startPos[0] < endPos[0]) {
+      middle = [startPos[0] +1, startPos[1] +1];
+      // set the middle position to null
+      this.grid[middle[0]][middle[1]] = null;
+      // find and remove the checker in the checker array
+      var middleIndex = this.checkers.findIndex(
+        item => item[0] === middle[0] && item[1] === middle[1]);
+      this.checkers.splice(middleIndex, 1);
+    }
+  }
+} 
+
 
 class Game {
   constructor() {
@@ -61,8 +152,27 @@ class Game {
   }
   start() {
     this.board.createGrid();
+    this.board.createCheckers();
+  }
+
+  moveChecker(start, end) {
+    var startCoords = start.split("").map(Number);
+    var endCoords = end.split("").map(Number);
+    var checker = this.board.selectChecker(startCoords[0], startCoords[1]);
+    var checkerIndex = this.board.checkers.findIndex(item => {
+      return item[0] === startCoords[0] && item[1] === startCoords[1];
+    });
+
+    this.board.grid[endCoords[0]][endCoords[1]] = checker;
+    this.board.grid[startCoords[0]][startCoords[1]] = null;
+    this.board.checkers.splice(checkerIndex, 1, [endCoords[0], endCoords[1]]);
+
+    if (Math.abs(startCoords[0] - endCoords[0]) === 2) {
+      this.board.killChecker(startCoords, endCoords);
+    }
   }
 }
+
 
 function getPrompt() {
   game.board.viewGrid();
@@ -73,6 +183,7 @@ function getPrompt() {
     });
   });
 }
+
 
 const game = new Game();
 game.start();

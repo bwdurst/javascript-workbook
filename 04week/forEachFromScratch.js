@@ -4,6 +4,8 @@ let arr = ['a', 'b', 'c']
   function forEachFromScratch (arr, fn) {
     for(let i = 0; i<arr.length; i++) {
      fn(arr[i], i , arr);
+
+
     }
   }
   // use for loop to iterate over the array parameter
@@ -11,7 +13,10 @@ let arr = ['a', 'b', 'c']
   // the current index in the array, and the current array
   
   // syntax on how we will call our custom function
-  forEachFromScratch(arr, function (element, i, arr) {
+
+  forEachFromScratch(arr, function(element, i, arr) {
+
+
     console.log(element, i);
     console.log(arr);
   });
